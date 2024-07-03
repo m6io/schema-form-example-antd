@@ -1,4 +1,4 @@
-import { StringSchema, useFieldData, useFieldErrors } from "@m6oss/schema-form";
+import { StringSchema, useFieldData, useFieldErrors } from "@react-formgen/json-schema";
 import { Form, Input, Select, DatePicker } from "antd";
 import dayjs from "dayjs";
 

@@ -27,7 +27,7 @@ export function Navbar({
         style={{ fontSize: "18px", fontWeight: "bold", color: textColor }}
         href="/"
       >
-        @m6oss/schema-form
+        @react-formgen/json-schema
       </a>
       <Space>
         <Button icon={<BulbOutlined />} onClick={toggleDarkMode}>
@@ -39,7 +39,7 @@ export function Navbar({
           icon={<YoutubeOutlined style={{ color: "#ff0000" }} />}
         />
         <Button
-          href="https://github.com/m6io/schema-form"
+          href="https://github.com/m6io/react-formgen"
           target="_blank"
           icon={<GithubOutlined style={{ color: "#4078c0" }} />}
         />

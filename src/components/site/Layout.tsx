@@ -25,7 +25,7 @@ export const Layout: React.FC<{
       <Content style={{ padding: "40px", color: textColor }}>
         <div style={{ maxWidth: "800px", margin: "auto" }}>
           <Title level={2} style={{ color: textColor }}>
-            @m6oss/schema-form - Ant Design Example
+            @react-formgen/json-schema - Ant Design Example
           </Title>
           {children}
         </div>

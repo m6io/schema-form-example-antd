@@ -1,4 +1,4 @@
-import { CustomFields } from "@m6oss/schema-form";
+import { CustomFields } from "@react-formgen/json-schema";
 import { AntdArrayField } from "./AntdArrayField";
 import { AntdBooleanField } from "./AntdBooleanField";
 import { AntdNumberField } from "./AntdNumberField";

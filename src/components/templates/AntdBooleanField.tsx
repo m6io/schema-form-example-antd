@@ -2,7 +2,7 @@ import {
   BooleanSchema,
   useFieldData,
   useFieldErrors,
-} from "@m6oss/schema-form";
+} from "@react-formgen/json-schema";
 import { Radio, Switch, Checkbox, Form } from "antd";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 
