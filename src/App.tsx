@@ -1,17 +1,26 @@
-import React, { useState } from "react";
-import formSchema from "./schema.json";
+import React, { useState, useEffect } from "react";
 import { JSONSchema7, FormProvider } from "@react-formgen/json-schema";
 import { Layout } from "./components/site/Layout";
 import { AntdCustomFields, AntdFormComponent } from "./components/templates";
 import { ConfigProvider, theme } from "antd";
 
 const App: React.FC = () => {
-  const schema: JSONSchema7 = formSchema as JSONSchema7;
+  const [schema, setSchema] = useState<JSONSchema7 | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(() =>
     localStorage.getItem("vite-ui-theme")
       ? localStorage.getItem("vite-ui-theme") === "true"
       : window.matchMedia("(prefers-color-scheme: dark)").matches
   );
+
+  useEffect(() => {
+    const fetchSchema = async () => {
+      const response = await fetch("/schema.json");
+      const schema = await response.json();
+      setSchema(schema);
+    };
+
+    fetchSchema();
+  }, []);
 
   const initialData = {
     firstName: "John Doe",
@@ -43,13 +52,15 @@ const App: React.FC = () => {
       }}
     >
       <Layout toggleDarkMode={toggleDarkMode} isDarkMode={isDarkMode}>
-        <FormProvider schema={schema} initialData={initialData}>
-          <AntdFormComponent
-            onSubmit={(data) => console.log("Form submitted:", data)}
-            onError={(errors) => console.error("Form errors:", errors)}
-            customFields={AntdCustomFields}
-          />
-        </FormProvider>
+        {schema && (
+          <FormProvider schema={schema} initialData={initialData}>
+            <AntdFormComponent
+              onSubmit={(data) => console.log("Form submitted:", data)}
+              onError={(errors) => console.error("Form errors:", errors)}
+              customFields={AntdCustomFields}
+            />
+          </FormProvider>
+        )}
       </Layout>
     </ConfigProvider>
   );
