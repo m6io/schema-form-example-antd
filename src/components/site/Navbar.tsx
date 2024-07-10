@@ -21,18 +21,24 @@ export function Navbar({
         justifyContent: "space-between",
         alignItems: "center",
         height: "100%",
+        gap: "1rem",
       }}
     >
       <a
-        style={{ fontSize: "18px", fontWeight: "bold", color: textColor }}
+        style={{
+          fontSize: "18px",
+          fontWeight: "bold",
+          color: textColor,
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}
         href="/"
       >
-        @react-formgen/json-schema
+        @react-formgen
       </a>
       <Space>
-        <Button icon={<BulbOutlined />} onClick={toggleDarkMode}>
-          {isDarkMode ? "Dark" : "Light"}
-        </Button>
+        <Button icon={<BulbOutlined />} onClick={toggleDarkMode} />
         <Button
           href="https://www.youtube.com/@m6io"
           target="_blank"
