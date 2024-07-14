@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.3.7",
-    "@react-formgen/json-schema": "0.0.0-alpha.1",
+    "@react-formgen/json-schema": "0.0.0-alpha.2",
     "antd": "^5.19.0",
     "dayjs": "^1.11.11",
     "lodash-es": "^4.17.21",

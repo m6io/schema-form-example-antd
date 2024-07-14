@@ -1,83 +1,31 @@
-import { ErrorObject } from "@react-formgen/json-schema";
-import { useFormContext, JSONSchema7, CustomFields } from "@react-formgen/json-schema";
-import { renderField } from "@react-formgen/json-schema";
-import { AjvInstance } from "@react-formgen/json-schema";
+import {
+  AjvInstance,
+  FormTemplateProps,
+  RenderTemplate,
+  useFormContext,
+  JSONSchema7,
+} from "@react-formgen/json-schema";
 import { Button, Form } from "antd";
-
-/**
- * Represents a JSON object.
- */
-interface JSONObject {
-  [key: string]: JSONValue;
-}
-
-/**
- * Represents a JSON array.
- */
-interface JSONArray extends Array<JSONValue> {}
-
-/**
- * Represents any valid JSON value.
- */
-type JSONValue = string | number | boolean | JSONObject | JSONArray;
-
-/**
- * Recursively removes specified keys from a JSON object. This is useful for removing UI-specific keys before validation, and can be valuable in instances where it's not ideal or possible to override the Ajv instance, where strict schema validation is required (i.e., no custom keywords or formats).
- *
- * @param {string[]} keys - An array of keys to be removed from the JSON object.
- * @param {JSONObject} obj - The JSON object to process.
- * @returns {JSONObject} - The JSON object with the specified keys removed.
- */
-function removeKeys(keys: string[], obj: JSONObject): JSONObject {
-  const newObj: JSONObject = {};
-
-  for (const key in obj) {
-    if (!keys.includes(key)) {
-      if (Array.isArray(obj[key])) {
-        newObj[key] = (obj[key] as JSONArray).map((item) =>
-          typeof item === "object" && item !== null
-            ? removeKeys(keys, item as JSONObject)
-            : item
-        );
-      } else if (typeof obj[key] === "object" && obj[key] !== null) {
-        newObj[key] = removeKeys(keys, obj[key] as JSONObject);
-      } else {
-        newObj[key] = obj[key];
-      }
-    }
-  }
-
-  return newObj;
-}
 
 /**
  * Form Component Template
  * @param {Function} onSubmit - The function to call when the form is submitted.
  * @param {Function} onError - The function to call when the form has errors.
- * @param {CustomFields} customFields - The custom fields object.
+ * @param {FieldTemplates} fieldTemplates - The custom fields object.
  * @returns {JSX.Element} - The form component.
  * @example
- * <AntdFormComponent onSubmit={onSubmit} onError={onError} customFields={customFields} />
+ * <AntdFormComponent onSubmit={onSubmit} onError={onError} fieldTemplates={fieldTemplates} />
  *
  */
-export const AntdFormComponent: React.FC<{
-  onSubmit: (data: { [key: string]: unknown }) => void;
-  onError: (errors: ErrorObject[], data?: { [key: string]: unknown }) => void;
-  customFields?: CustomFields;
-}> = ({ onSubmit, onError, customFields = {} }) => {
-  const schema = useFormContext((state) => state.schema);
-  const formData = useFormContext(
-    (state) => state.formData as { [key: string]: unknown }
-  );
-  const setErrors = useFormContext((state) => state.setErrors);
+export const AntdFormComponent: React.FC<FormTemplateProps> = ({
+  onSubmit,
+  onError,
+  fieldTemplates,
+}) => {
+  const { schema, formData, setErrors } = useFormContext((state) => state);
 
   const handleSubmit = () => {
-    const cleanSchema: JSONSchema7 = removeKeys(
-      ["uiSchema"],
-      schema as JSONObject
-    );
-
-    const validate = AjvInstance.compile(cleanSchema);
+    const validate = AjvInstance.compile(schema);
     const valid = validate(formData);
     if (valid) {
       setErrors(null);
@@ -97,12 +45,12 @@ export const AntdFormComponent: React.FC<{
     >
       {Object.keys(schema.properties || {}).map((key) => (
         <Form.Item key={key}>
-          {renderField(
-            schema.properties?.[key] as JSONSchema7,
-            [key],
-            schema.definitions || {},
-            customFields
-          )}
+          <RenderTemplate
+            schema={schema.properties?.[key] as JSONSchema7}
+            path={[key]}
+            definitions={schema.definitions || {}}
+            fieldTemplates={fieldTemplates}
+          />
         </Form.Item>
       ))}
       <Form.Item>

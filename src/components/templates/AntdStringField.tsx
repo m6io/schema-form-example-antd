@@ -1,4 +1,8 @@
-import { StringSchema, useFieldData, useFieldErrors } from "@react-formgen/json-schema";
+import {
+  StringSchema,
+  useErrorsAtPath,
+  useFormDataAtPath,
+} from "@react-formgen/json-schema";
 import { Form, Input, Select, DatePicker } from "antd";
 import dayjs from "dayjs";
 
@@ -34,8 +38,8 @@ const AntdInputField: React.FC<{
   schema: StringSchema;
   path: string[];
 }> = ({ schema, path }) => {
-  const [valueAtPath, setValueAtPath] = useFieldData(path);
-  const errorsAtPath = useFieldErrors(path);
+  const [valueAtPath, setValueAtPath] = useFormDataAtPath(path);
+  const errorsAtPath = useErrorsAtPath(path);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValueAtPath(event.target.value);
@@ -79,8 +83,8 @@ const AntdTextareaField: React.FC<{
   schema: StringSchema;
   path: string[];
 }> = ({ schema, path }) => {
-  const [valueAtPath, setValueAtPath] = useFieldData(path);
-  const errorsAtPath = useFieldErrors(path);
+  const [valueAtPath, setValueAtPath] = useFormDataAtPath(path);
+  const errorsAtPath = useErrorsAtPath(path);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValueAtPath(event.target.value);
@@ -116,8 +120,8 @@ const AntdSelectField: React.FC<{
   schema: StringSchema;
   path: string[];
 }> = ({ schema, path }) => {
-  const [valueAtPath, setValueAtPath] = useFieldData(path, "");
-  const errorsAtPath = useFieldErrors(path);
+  const [valueAtPath, setValueAtPath] = useFormDataAtPath(path, "");
+  const errorsAtPath = useErrorsAtPath(path);
 
   const handleChange = (value: string) => {
     setValueAtPath(value);
@@ -163,8 +167,8 @@ const AntdDateField: React.FC<{
   schema: StringSchema;
   path: string[];
 }> = ({ schema, path }) => {
-  const [valueAtPath, setValueAtPath] = useFieldData(path, "");
-  const errorsAtPath = useFieldErrors(path);
+  const [valueAtPath, setValueAtPath] = useFormDataAtPath(path, "");
+  const errorsAtPath = useErrorsAtPath(path);
 
   const dateFormat = "YYYY/MM/DD";
 

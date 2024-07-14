@@ -1,4 +1,8 @@
-import { NumberSchema, useFieldData, useFieldErrors } from "@react-formgen/json-schema";
+import {
+  NumberSchema,
+  useErrorsAtPath,
+  useFormDataAtPath,
+} from "@react-formgen/json-schema";
 import { Form, InputNumber } from "antd";
 
 /**
@@ -14,8 +18,8 @@ export const AntdNumberField: React.FC<{
   schema: NumberSchema;
   path: string[];
 }> = ({ schema, path }) => {
-  const [valueAtPath, setValueAtPath] = useFieldData(path);
-  const errorsAtPath = useFieldErrors(path);
+  const [valueAtPath, setValueAtPath] = useFormDataAtPath(path);
+  const errorsAtPath = useErrorsAtPath(path);
 
   const handleChange = (value: number | null) => {
     setValueAtPath(value);

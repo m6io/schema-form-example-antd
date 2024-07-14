@@ -1,7 +1,7 @@
 import {
   BooleanSchema,
-  useFieldData,
-  useFieldErrors,
+  useErrorsAtPath,
+  useFormDataAtPath,
 } from "@react-formgen/json-schema";
 import { Radio, Switch, Checkbox, Form } from "antd";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
@@ -42,7 +42,9 @@ export const AntdBooleanField: React.FC<{
  * ```json
  *    {
  *      "type": "boolean",
- *      "uiSchema": "radio",
+ *      "uiSchema": {
+ *       "component": "radio"
+ *      },
  *      "oneOf": [
  *        {
  *          "const": true,
@@ -66,8 +68,8 @@ export const AntdRadioBooleanField: React.FC<{
   schema: BooleanSchema;
   path: string[];
 }> = ({ schema, path }) => {
-  const [valueAtPath, setValueAtPath] = useFieldData(path, false);
-  const errorsAtPath = useFieldErrors(path);
+  const [valueAtPath, setValueAtPath] = useFormDataAtPath(path, false);
+  const errorsAtPath = useErrorsAtPath(path);
 
   if (!schema.oneOf || schema.uiSchema?.component !== "radio") {
     return null;
@@ -103,7 +105,9 @@ export const AntdRadioBooleanField: React.FC<{
  * ```json
  *    {
  *      "type": "boolean",
- *      "uiSchema": "switch",
+ *      "uiSchema": {
+ *        "component": "switch"
+ *       },
  *      "oneOf": [
  *        {
  *          "const": true,
@@ -127,8 +131,8 @@ export const AntdSwitchBooleanField: React.FC<{
   schema: BooleanSchema;
   path: string[];
 }> = ({ schema, path }) => {
-  const [valueAtPath, setValueAtPath] = useFieldData(path, false);
-  const errorsAtPath = useFieldErrors(path);
+  const [valueAtPath, setValueAtPath] = useFormDataAtPath(path, false);
+  const errorsAtPath = useErrorsAtPath(path);
 
   if (!schema.oneOf || schema.uiSchema?.component !== "switch") {
     return null;
@@ -177,8 +181,8 @@ export const AntdCheckboxBooleanField: React.FC<{
   schema: BooleanSchema;
   path: string[];
 }> = ({ schema, path }) => {
-  const [valueAtPath, setValueAtPath] = useFieldData(path, false);
-  const errorsAtPath = useFieldErrors(path);
+  const [valueAtPath, setValueAtPath] = useFormDataAtPath(path, false);
+  const errorsAtPath = useErrorsAtPath(path);
 
   return (
     <Form.Item
